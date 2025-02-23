@@ -1,11 +1,12 @@
 class HashMap {
-  constructor() {
+  constructor(loadFactor) {
+    this.loadFactor = loadFactor;
     this.arr = [];
     this.#createLinkedLists();
   }
 
-  LOADFACTOR = 0.8;
   capacity = 16;
+  population = 0;
 
   #createLinkedLists() {
     for (let i = 0; i < this.capacity; i++) {
@@ -31,9 +32,15 @@ class HashMap {
       if (this.arr[hashCode].contains(key)) {
         this.arr[hashCode].updateKey(key, value);
       }
-      else this.arr[hashCode].append(key, value);
+      else {
+        this.arr[hashCode].append(key, value);
+        this.population++;
+      }
     }
-    else this.arr[hashCode].append(key, value);
+    else {
+      this.arr[hashCode].append(key, value);
+      this.population++;
+    }
   }
 
   get(key) {
@@ -55,7 +62,9 @@ class HashMap {
   remove(key) {
     let hashCode = this.hash(key);
     if (this.arr[hashCode].size != 0) {
-      this.arr[hashCode].remove(key);
+      if (this.arr[hashCode].remove(key)) {
+        this.population--;
+      };
     }
   }
 
@@ -64,11 +73,7 @@ class HashMap {
   }
 
   get length() {
-    let totalNodeCount = 0;
-    for (let i = 0; i < this.capacity; i++) {
-      totalNodeCount += this.arr[i].nodeCount;
-    }
-    return totalNodeCount;
+    return this.population;
   }
 
   get keys() {
@@ -216,7 +221,7 @@ class Node {
 }
 
 
-let a = new HashMap();
+let a = new HashMap(0.75);
 a.set("luke", 2001);
 a.set("luke", 2005);
 console.log(a.get("luke"));
