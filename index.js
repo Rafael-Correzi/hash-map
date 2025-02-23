@@ -27,6 +27,16 @@ class HashMap {
   } 
 
   set(key, value) {
+    if (this.population > this.capacity * this.loadFactor) {
+      let oldMax = this.capacity * this.loadFactor;
+      let entriesCopy = this.entries;
+      this.capacity = this.capacity * 2;
+      this.population = 0;
+      this.#createLinkedLists();
+      for (let i = 0; i <= oldMax; i++) {
+        this.set(entriesCopy[i][0], entriesCopy[i][1]);
+      } 
+    }
     let hashCode = this.hash(key);
     if (this.arr[hashCode].size != 0) {
       if (this.arr[hashCode].contains(key)) {
@@ -228,13 +238,13 @@ console.log(a.get("luke"));
 console.log(a.get("luka"));
 console.log(a.has("luke"));
 console.log(a.has("luka"));
-for (let i = 1; i <= 100; i++) {
-  a.set(`Luke${i}`, 2000 + i - 1);
+for (let i = 1; i <= 1000; i++) {
+  a.set(`luke${i}`, 2000 + i - 1);
 }
 a.remove("luke");
 console.log(a.length);
 console.log(a.keys);
 console.log(a.values);
 console.log(a.entries);
-a.clear();
+console.log(a.get("luke324"));
 console.log(a);
