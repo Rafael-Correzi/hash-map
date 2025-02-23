@@ -28,7 +28,6 @@ class HashMap {
   set(key, value) {
     let hashCode = this.hash(key);
     if (this.arr[hashCode].size != 0) {
-      console.log(this.arr)
       if (this.arr[hashCode].contains(key)) {
         this.arr[hashCode].updateKey(key, value);
       }
@@ -39,7 +38,25 @@ class HashMap {
 
   get(key) {
     let hashCode = this.hash(key);
-    return this.arr[hashCode].find(key)
+    if (this.arr[hashCode].size != 0) {
+      return this.arr[hashCode].find(key)
+    }
+    else return null;
+  }
+
+  has(key) {
+    let hashCode = this.hash(key);
+    if (this.arr[hashCode].size != 0) {
+      return this.arr[hashCode].contains(key)
+    }
+    else return false;
+  }
+
+  remove(key) {
+    let hashCode = this.hash(key);
+    if (this.arr[hashCode].size != 0) {
+      this.arr[hashCode].remove(key);
+    }
   }
 }
 
@@ -62,6 +79,7 @@ class LinkedList {
       this.tail.nextNode = temp;
       this.tail = temp;   
     }
+    this.tail.nextNode = null;
     this.nodeCount++;
   }
 
@@ -103,6 +121,29 @@ class LinkedList {
     } while (current != null);
     return null;
   } 
+
+  remove(key) {
+    let current = this.head;
+    let previous = null;
+    do {
+      if (current.key === key) {
+        if (previous === null) {
+          this.head = current.nextNode;
+        }
+        if (this.tail === current) {
+          this.tail = current.nextNode;
+        }
+        else {
+          previous.nextNode = current.nextNode;
+        }
+        this.nodeCount--;
+        return true;
+      }
+      previous = current;
+      current = current.nextNode;
+    } while (current != null);
+    return false;
+  }
 }
 
 class Node {
@@ -111,7 +152,6 @@ class Node {
     this.value = value;
   }
 
-  
 }
 
 
@@ -119,4 +159,8 @@ let a = new HashMap();
 a.set("luke", 2001);
 a.set("luke", 2005);
 console.log(a.get("luke"));
+console.log(a.get("luka"));
+console.log(a.has("luke"));
+console.log(a.has("luka"));
+a.remove("luke");
 console.log(a);
