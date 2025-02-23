@@ -27,14 +27,14 @@ class HashMap {
 
   set(key, value) {
     let hashCode = this.hash(key);
-    if (this.arr[hashCode] != undefined) {
+    if (this.arr[hashCode].size != 0) {
       console.log(this.arr)
       if (this.arr[hashCode].contains(key)) {
         this.arr[hashCode].key = value;
       }
       else this.arr[hashCode].append({key, value});
     }
-    else this.arr[hashCode].append({key, value});
+    else this.arr[hashCode].append({key: value});
   }
 }
 
@@ -49,11 +49,11 @@ class LinkedList {
 
   append(node) {
     if (this.head === null) {
-      this.head = new Node(node);
+      this.head = node;
       this.tail = this.head;
     }
     else {
-      let temp = new Node(node);
+      let temp = node;
       this.tail.nextNode = temp;
       this.tail = temp;   
     }
@@ -63,7 +63,7 @@ class LinkedList {
   contains(key) {
     let current = this.head;
     do {
-      if (key in current) {
+      if (current.hasOwnProperty(key)) {
         return true;
       }
       current = current.nextNode;
@@ -76,11 +76,6 @@ class LinkedList {
   }
 }
 
-class Node {
-  constructor(node) {
-    this.node = node;
-  }
-}
 
 let a = new HashMap();
 a.set("luke", 2001);
