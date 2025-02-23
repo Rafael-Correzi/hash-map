@@ -79,6 +79,9 @@ class HashMap {
   }
 
   clear() {
+    this.arr = [];
+    this.population = 0;
+    this.capacity = 16;
     this.#createLinkedLists();
   }
 
@@ -247,4 +250,6 @@ console.log(a.keys);
 console.log(a.values);
 console.log(a.entries);
 console.log(a.get("luke324"));
+console.log(a);
+a.clear();
 console.log(a);
