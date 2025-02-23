@@ -36,6 +36,11 @@ class HashMap {
     }
     else this.arr[hashCode].append(key, value);
   }
+
+  get(key) {
+    let hashCode = this.hash(key);
+    return this.arr[hashCode].find(key)
+  }
 }
 
 class LinkedList {
@@ -81,11 +86,23 @@ class LinkedList {
     do {
       if (current.key === key) {
         current.value = value;
+        return;
       }
       current = current.nextNode;
     } while (current != null);
     return false;
   }
+
+  find(key) {
+    let current = this.head; 
+    do {
+      if (current.key === key) {
+        return current.value;
+      }
+      current = current.nextNode;
+    } while (current != null);
+    return null;
+  } 
 }
 
 class Node {
@@ -101,4 +118,5 @@ class Node {
 let a = new HashMap();
 a.set("luke", 2001);
 a.set("luke", 2005);
+console.log(a.get("luke"));
 console.log(a);
