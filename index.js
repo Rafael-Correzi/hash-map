@@ -1,13 +1,13 @@
 class HashMap {
   constructor() {
     this.arr = [];
-    this.createLinkedLists();
+    this.#createLinkedLists();
   }
 
   LOADFACTOR = 0.8;
   capacity = 16;
 
-  createLinkedLists() {
+  #createLinkedLists() {
     for (let i = 0; i < this.capacity; i++) {
       this.arr[i] = new LinkedList;
     }
@@ -57,6 +57,18 @@ class HashMap {
     if (this.arr[hashCode].size != 0) {
       this.arr[hashCode].remove(key);
     }
+  }
+
+  get length() {
+    let totalNodeCount = 0;
+    for (let i = 0; i < this.capacity; i++) {
+      totalNodeCount += this.arr[i].nodeCount;
+    }
+    return totalNodeCount;
+  }
+
+  clear() {
+    this.#createLinkedLists();
   }
 }
 
@@ -130,12 +142,13 @@ class LinkedList {
         if (previous === null) {
           this.head = current.nextNode;
         }
-        if (this.tail === current) {
-          this.tail = current.nextNode;
-        }
         else {
           previous.nextNode = current.nextNode;
         }
+        if (this.tail === current) {
+          this.tail = current.nextNode;
+        }
+
         this.nodeCount--;
         return true;
       }
@@ -162,5 +175,10 @@ console.log(a.get("luke"));
 console.log(a.get("luka"));
 console.log(a.has("luke"));
 console.log(a.has("luka"));
+for (let i = 1; i <= 100; i++) {
+  a.set(`Luke${i}`, 2000 + i - 1);
+}
 a.remove("luke");
+console.log(a.length);
+a.clear();
 console.log(a);
