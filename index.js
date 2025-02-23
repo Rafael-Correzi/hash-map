@@ -59,6 +59,10 @@ class HashMap {
     }
   }
 
+  clear() {
+    this.#createLinkedLists();
+  }
+
   get length() {
     let totalNodeCount = 0;
     for (let i = 0; i < this.capacity; i++) {
@@ -67,8 +71,31 @@ class HashMap {
     return totalNodeCount;
   }
 
-  clear() {
-    this.#createLinkedLists();
+  get keys() {
+    let arrKeys = [];
+    for (let i = 0; i < this.capacity; i++) {
+      let arr = this.arr[i].show("key");
+      arrKeys = arrKeys.concat(arr);
+    }
+    return arrKeys;
+  }
+
+  get values() {
+    let arrValues = [];
+    for (let i = 0; i < this.capacity; i++) {
+      let arr = this.arr[i].show("value");
+      arrValues = arrValues.concat(arr);
+    }
+    return arrValues;
+  }
+
+  get entries() {
+    let arrEntries = [];
+    for (let i = 0; i < this.capacity; i++) {
+      let arr = this.arr[i].entries;
+      arrEntries = arrEntries.concat(arr);
+    }
+    return arrEntries;
   }
 }
 
@@ -107,8 +134,14 @@ class LinkedList {
     return false;
   }
 
-  get size() {
-    return this.nodeCount;
+  show(keyOrValue) {
+    let arr = [];
+    let current = this.head;
+    while (current != null) {
+      arr.push(current[keyOrValue]);
+      current = current.nextNode;
+    }
+    return arr;
   }
 
   updateKey(key, value) {
@@ -157,6 +190,21 @@ class LinkedList {
     } while (current != null);
     return false;
   }
+
+  get size() {
+    return this.nodeCount;
+  }
+
+  get entries() {
+    let arr = [];
+    let current = this.head;
+    while (current != null) {
+      let entryPair = [current.key, current.value];
+      arr.push(entryPair);
+      current = current.nextNode;
+    }
+    return arr;
+  }
 }
 
 class Node {
@@ -180,5 +228,8 @@ for (let i = 1; i <= 100; i++) {
 }
 a.remove("luke");
 console.log(a.length);
+console.log(a.keys);
+console.log(a.values);
+console.log(a.entries);
 a.clear();
 console.log(a);
