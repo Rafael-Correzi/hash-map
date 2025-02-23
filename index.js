@@ -30,11 +30,11 @@ class HashMap {
     if (this.arr[hashCode].size != 0) {
       console.log(this.arr)
       if (this.arr[hashCode].contains(key)) {
-        this.arr[hashCode].key = value;
+        this.arr[hashCode].updateKey(key, value);
       }
-      else this.arr[hashCode].append({key, value});
+      else this.arr[hashCode].append(key, value);
     }
-    else this.arr[hashCode].append({key: value});
+    else this.arr[hashCode].append(key, value);
   }
 }
 
@@ -47,23 +47,24 @@ class LinkedList {
   tail = null;
   nodeCount = 0;
 
-  append(node) {
+  append(key, value) {
+    let temp =  new Node(key, value);
     if (this.head === null) {
-      this.head = node;
-      this.tail = this.head;
+      this.head = temp;
+      this.tail = temp;
     }
     else {
-      let temp = node;
       this.tail.nextNode = temp;
       this.tail = temp;   
     }
     this.nodeCount++;
   }
 
+
   contains(key) {
     let current = this.head;
     do {
-      if (current.hasOwnProperty(key)) {
+      if (current.key === key) {
         return true;
       }
       current = current.nextNode;
@@ -74,6 +75,26 @@ class LinkedList {
   get size() {
     return this.nodeCount;
   }
+
+  updateKey(key, value) {
+    let current = this.head;
+    do {
+      if (current.key === key) {
+        current.value = value;
+      }
+      current = current.nextNode;
+    } while (current != null);
+    return false;
+  }
+}
+
+class Node {
+  constructor (key, value) {
+    this.key = key;
+    this.value = value;
+  }
+
+  
 }
 
 
