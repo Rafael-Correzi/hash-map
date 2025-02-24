@@ -251,5 +251,3 @@ console.log(a.values);
 console.log(a.entries);
 console.log(a.get("luke324"));
 console.log(a);
-a.clear();
-console.log(a);
