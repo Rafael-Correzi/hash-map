@@ -92,7 +92,7 @@ class HashMap {
   get keys() {
     let arrKeys = [];
     for (let i = 0; i < this.capacity; i++) {
-      let arr = this.arr[i].show("key");
+      let arr = this.arr[i].keys;
       arrKeys = arrKeys.concat(arr);
     }
     return arrKeys;
@@ -101,7 +101,7 @@ class HashMap {
   get values() {
     let arrValues = [];
     for (let i = 0; i < this.capacity; i++) {
-      let arr = this.arr[i].show("value");
+      let arr = this.arr[i].values;
       arrValues = arrValues.concat(arr);
     }
     return arrValues;
@@ -144,7 +144,7 @@ class LinkedList {
   contains(key) {
     let current = this.head;
     do {
-      if (current.key === key) {
+      if (!!current[key]) {
         return true;
       }
       current = current.nextNode;
@@ -152,21 +152,12 @@ class LinkedList {
     return false;
   }
 
-  show(keyOrValue) {
-    let arr = [];
-    let current = this.head;
-    while (current != null) {
-      arr.push(current[keyOrValue]);
-      current = current.nextNode;
-    }
-    return arr;
-  }
 
   updateKey(key, value) {
     let current = this.head;
     do {
-      if (current.key === key) {
-        current.value = value;
+      if (!!current[key]) {
+        current[key] = value;
         return;
       }
       current = current.nextNode;
@@ -177,8 +168,8 @@ class LinkedList {
   find(key) {
     let current = this.head; 
     do {
-      if (current.key === key) {
-        return current.value;
+      if (!!current[key]) {
+        return current[key];
       }
       current = current.nextNode;
     } while (current != null);
@@ -189,7 +180,7 @@ class LinkedList {
     let current = this.head;
     let previous = null;
     do {
-      if (current.key === key) {
+      if (!!current[key]) {
         if (previous === null) {
           this.head = current.nextNode;
         }
@@ -213,11 +204,31 @@ class LinkedList {
     return this.nodeCount;
   }
 
+  get keys() {
+    let arr = [];
+    let current = this.head;
+    while (current != null) {
+      arr.push(Object.keys(current)[0]);
+      current = current.nextNode;
+    }
+    return arr;
+  }
+
+  get values() {
+    let arr = [];
+    let current = this.head;
+    while (current != null) {
+      arr.push(Object.values(current)[0]);
+      current = current.nextNode;
+    }
+    return arr;
+  }
+
   get entries() {
     let arr = [];
     let current = this.head;
     while (current != null) {
-      let entryPair = [current.key, current.value];
+      let entryPair = Object.entries(current)[0];
       arr.push(entryPair);
       current = current.nextNode;
     }
@@ -227,12 +238,10 @@ class LinkedList {
 
 class Node {
   constructor (key, value) {
-    this.key = key;
-    this.value = value;
+    this[key] = value;
   }
 
 }
-
 
 let a = new HashMap(0.75);
 a.set("luke", 2001);
